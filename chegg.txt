@@ -1,0 +1,9 @@
+In this question, we are supposed to implement a linked list which supports 3 operations i.e Push, Pop, and enqueue where -
+
+Push: Pushes the element of given value to the front of linked list that is we need to append the new element before the head node and then the new element becomes the head node.
+
+Pop: The pop operation removes the element at the beginning of the list that is we need to remove the head node and then make the next element as the new head node.
+
+Enqueue: This is a pretty basic operation, in this we just need to append the new element at the tail of our linked list.
+
+We can implement the above in the following way:

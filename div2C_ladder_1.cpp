@@ -1,0 +1,69 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+typedef long double ld;
+typedef pair<int, int> p32;
+typedef pair<ll, ll> p64;
+typedef pair<double, double> pdd;
+typedef vector<ll> v64;
+typedef vector<int> v32;
+typedef vector<vector<int> > vv32;
+typedef vector<vector<ll> > vv64;
+typedef vector<vector<p64> > vvp64;
+typedef vector<p64> vp64;
+typedef vector<p32> vp32;
+ll MOD = 1e9 + 7;
+#define forn(i,e) for(ll i = 0; i < e; i++)
+#define forsn(i,s,e) for(int i = s; i < e; i++)
+#define rforn(i,s) for(ll i = s; i >= 0; i--)
+#define rforsn(i,s,e) for(ll i = s; i >= e; i--)
+#define ln "\n"
+#define dbg(x) cout<<#x<<" = "<<x<<ln
+#define mp make_pair
+#define pb push_back
+#define ff first
+#define ss second
+#define INF 1e18
+#define fast_cin() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define all(x) (x).begin(), (x).end()
+#define sz(x) ((ll)(x).size())
+
+
+int main() {
+	fast_cin();
+#ifndef ONLINE_JUDGE
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+#endif
+	int m, s; cin >> m >> s;
+	if (m == 1) {
+		if (s > 9) cout << -1 << " " << -1 << ln;
+		else cout << s << " " << s << ln;
+
+	}
+	else {
+		if (s < 1 || s > 9 * m) cout << -1 << " " << -1 << ln;
+		else {
+			s -= 1;
+			int nines = s / 9;
+			int rem = s % 9;
+			string sm(m, '0');
+			string la(m, '0');
+			sm[0] = '1';
+			for (int i = m - 1; i >= m - nines; i--) {
+				sm[i] = '9';
+			}
+			sm[m - nines - 1] = sm[m - nines - 1] + rem;
+			s += 1;
+			nines = s / 9;
+			rem = s % 9;
+			for (int i = 0; i < nines; i++) {
+				la[i] = '9';
+			}
+			la[nines] = '0' + rem;
+			cout << sm << " " << la << ln;
+		}
+	}
+
+}
