@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+#define int long long
 typedef long long ll;
 typedef long double ld;
 typedef pair<int, int> p32;
@@ -28,7 +29,6 @@ ll MOD = 1e9 + 7;
 #define fast_cin() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define all(x) (x).begin(), (x).end()
 #define sz(x) ((ll)(x).size())
-#define int long long
 
 
 main() {
@@ -37,19 +37,40 @@ main() {
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	ll n; cin >> n;
-	unordered_map<ll, ll> m;
-	int ans = INT_MIN;
-	forn(i, n) {
-		ll x; cin >> x;
-		ans = max(ans, x);
-		m[x]++;
+	int t; cin >> t;
+	while (t--) {
+		unordered_map<int, int> m;
+		int n; cin >> n;
+		forn(i, n) {
+			int x; cin >> x;
+			m[x]++;
+		}
+		v32 val;
+		for (auto i : m) val.pb(i.second);
+		sort(all(val));
+		int s = val.size();
+		map<int, int> m2;
+		map<int, int> count;
+		vp32 p;
+		for (auto i : val) {
+			m2[i] += i;
+			count[i] += 1;
+		}
+		for (auto i : m2) p.pb(make_pair(m2.first, m2.second));
+		int ans = INT_MAX;
+		int len = p.size();
+		if (len == 1) {
+			cout << 0 << ln;
+			continue;
+		}
+		for (int i = 0; i < len; i++) {
+			if (i == 0 ) {
+				ans = min(ans, p[i + 1].second - p[i].first * count[p[i + 1].first]);
+			}
+			else {
+				ans = min(ans, p[i - 1].second + p[i + 1])
+			}
+		}
 	}
-	v64 dp(100006);
-	dp[0] = 0;
-	dp[1] = m[1];
-	for (int i = 2; i <= 100005; i++) dp[i] = max(dp[i - 1], dp[i - 2] + m[i] * i);
-	cout << dp[100005];
-
 
 }

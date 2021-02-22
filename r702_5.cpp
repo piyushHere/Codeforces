@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+#define int long long
 typedef long long ll;
 typedef long double ld;
 typedef pair<int, int> p32;
@@ -28,7 +29,6 @@ ll MOD = 1e9 + 7;
 #define fast_cin() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define all(x) (x).begin(), (x).end()
 #define sz(x) ((ll)(x).size())
-#define int long long
 
 
 main() {
@@ -37,19 +37,39 @@ main() {
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	ll n; cin >> n;
-	unordered_map<ll, ll> m;
-	int ans = INT_MIN;
-	forn(i, n) {
-		ll x; cin >> x;
-		ans = max(ans, x);
-		m[x]++;
-	}
-	v64 dp(100006);
-	dp[0] = 0;
-	dp[1] = m[1];
-	for (int i = 2; i <= 100005; i++) dp[i] = max(dp[i - 1], dp[i - 2] + m[i] * i);
-	cout << dp[100005];
+	int t; cin >> t;
+	while (t--) {
+		unordered_map<int, int> m;
+		int n; cin >> n;
+		vector<pair<int, int> > v;
+		forn(i, n) {
+			int x; cin >> x;
+			m[x] += x;
+			v.push_back(make_pair(x, i));
+		};
+		sort(all(v));
+		v32 pre(n);
+		int sum = 0;
+		forn(i, n) {
+			sum += v[i].first;
+			if (i == 0) pre[i] = m[v[i].first];
+			else {
+				if (v[i - 1].first < v[i].first) pre[i] = pre[i - 1] + m[v[i].first];
+				else pre[i] = pre[i - 1];
 
+			}
+			//cout << pre[i] << " ";
+		}
+		v32 ans;
+		ans.pb(v[n - 1].second);
+		for (int i = n - 2; i >= 0; i--) {
+			if (pre[i] >= v[i + 1].first) ans.pb(v[i].second);
+			else break;
+		}
+		sort(all(ans));
+		cout << ans.size() << ln;
+		for (int i = 0; i < ans.size(); i++) cout << ans[i] + 1 << " ";
+		cout << ln;
+	}
 
 }

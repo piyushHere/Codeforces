@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+#define int long long
 typedef long long ll;
 typedef long double ld;
 typedef pair<int, int> p32;
@@ -28,7 +29,6 @@ ll MOD = 1e9 + 7;
 #define fast_cin() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define all(x) (x).begin(), (x).end()
 #define sz(x) ((ll)(x).size())
-#define int long long
 
 
 main() {
@@ -37,19 +37,37 @@ main() {
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	ll n; cin >> n;
-	unordered_map<ll, ll> m;
-	int ans = INT_MIN;
-	forn(i, n) {
-		ll x; cin >> x;
-		ans = max(ans, x);
-		m[x]++;
+	v32 v(3); ; cin >> v[0] >> v[1] >> v[2];
+	sort(all(v));
+	int sum = v[0] + v[1] + v[2];
+	int ans = 0;
+	while (sum >= 3) {
+		if (v[1] == 0) break;
+		//cout << v[0] << " " << v[1] << " " << v[2] << ln;
+		int l = v[1] - v[0];
+		int r = v[2] - v[1];
+		if (v[0] == 0) l -= 1;
+		if (l == r) {
+			ans += l + v[0];
+			break;
+		}
+		else if (l < r) {
+			v[1] = v[1] - (l + 1);
+			v[2] = v[2] - 2 * (l + 1);
+			ans += l + 1;
+
+		}
+		else {
+			v[1] = v[1] - (r + 1);
+			v[2] = v[2] - 2 * (r + 1);
+			ans += r + 1;
+		}
+		sort(all(v));
+		//cout << ans << ln;
+
+		sum = v[0] + v[1] + v[2];
 	}
-	v64 dp(100006);
-	dp[0] = 0;
-	dp[1] = m[1];
-	for (int i = 2; i <= 100005; i++) dp[i] = max(dp[i - 1], dp[i - 2] + m[i] * i);
-	cout << dp[100005];
+	cout << ans;
 
 
 }

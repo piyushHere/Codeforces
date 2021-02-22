@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+#define int long long
 typedef long long ll;
 typedef long double ld;
 typedef pair<int, int> p32;
@@ -28,7 +29,6 @@ ll MOD = 1e9 + 7;
 #define fast_cin() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define all(x) (x).begin(), (x).end()
 #define sz(x) ((ll)(x).size())
-#define int long long
 
 
 main() {
@@ -37,19 +37,25 @@ main() {
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	ll n; cin >> n;
-	unordered_map<ll, ll> m;
-	int ans = INT_MIN;
-	forn(i, n) {
-		ll x; cin >> x;
-		ans = max(ans, x);
-		m[x]++;
+	int t; cin >> t;
+	while (t--) {
+		int x, y; cin >> x >> y;
+		string s; cin >> s;
+		v32 v(4);
+		for (auto c : s) {
+			if (c == 'U') v[0]++;
+			if (c == 'D') v[1]++;
+			if (c == 'L') v[2]++;
+			if (c == 'R') v[3]++;
+		}
+		bool ans = true;
+		if (x < 0 && v[2] < abs(x)) ans = false;
+		if (x > 0 && v[3] < x) ans = false;
+		if (y < 0 && v[1] < abs(y)) ans = false;
+		if (y > 0 && v[0] < y) ans = false;
+		if (ans) cout << "YES" << ln;
+		else cout << "NO" << ln;
 	}
-	v64 dp(100006);
-	dp[0] = 0;
-	dp[1] = m[1];
-	for (int i = 2; i <= 100005; i++) dp[i] = max(dp[i - 1], dp[i - 2] + m[i] * i);
-	cout << dp[100005];
 
 
 }

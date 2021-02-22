@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+#define int long long
 typedef long long ll;
 typedef long double ld;
 typedef pair<int, int> p32;
@@ -28,7 +29,6 @@ ll MOD = 1e9 + 7;
 #define fast_cin() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define all(x) (x).begin(), (x).end()
 #define sz(x) ((ll)(x).size())
-#define int long long
 
 
 main() {
@@ -37,19 +37,40 @@ main() {
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	ll n; cin >> n;
-	unordered_map<ll, ll> m;
-	int ans = INT_MIN;
-	forn(i, n) {
-		ll x; cin >> x;
-		ans = max(ans, x);
-		m[x]++;
-	}
-	v64 dp(100006);
-	dp[0] = 0;
-	dp[1] = m[1];
-	for (int i = 2; i <= 100005; i++) dp[i] = max(dp[i - 1], dp[i - 2] + m[i] * i);
-	cout << dp[100005];
+	int t; cin >> t;
+	while (t--) {
+		int n; cin >> n;
+		v32 c(3);
+		forn(i, n) {
+			int x; cin >> x;
+			if (x % 3 == 0) c[0] += 1;
+			else if (x % 3 == 1) c[1] += 1;
+			else c[2] += 1;
+		}
+		int val = n / 3;
+		int ans = 0;
+		forn(i, 3) {
+			if (c[i] < val) {
+				int req = val - c[i];
+				int prev_i = (i + 2) % 3;
+				int prev_can_give = c[prev_i] - val;
+				if (prev_can_give >= req) {
+					c[prev_i] -= req;
+					c[i] += req;
+					ans += req;
+				}
+				else {
+					c[prev_i] = val;
+					c[i] += prev_can_give;
+					ans += prev_can_give;
+					req -= prev_can_give;
+					ans += 2 * req;
+					c[(i + 1) % 3] -= req;
+				}
+			}
+		}
+		cout << ans << ln;
 
+	}
 
 }
